@@ -1,3 +1,4 @@
+"use client";
 import { Task } from "@/data/mock-data";
 import { Badge } from "@workspace/ui/components/badge";
 

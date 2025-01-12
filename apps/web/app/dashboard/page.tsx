@@ -1,4 +1,10 @@
+"use client";
+
 import { StatsCard } from "@/components/stats-card";
+import { DashboardIntro } from "@/components/DashboardIntro";
+import { WeeklyTaskChart } from "@/components/WeeklyChart";
+import { UpcomingDeadlines } from "@/components/deadlines";
+import { ProductivityTips } from "@/components/ProductivityTips";
 import { tasks } from "@/data/mock-data";
 
 export default function DashboardPage() {
@@ -17,11 +23,9 @@ export default function DashboardPage() {
 
   return (
     <div className="container mx-auto p-8">
-      <h1 className="text-4xl font-bold mb-8 text-center bg-gradient-to-r from-gray-800 to-gray-600 bg-clip-text text-transparent">
-        Task Dashboard
-      </h1>
+      <DashboardIntro />
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
         <StatsCard
           href="/dashboard/recent"
           title="Recent Tasks"
@@ -51,6 +55,13 @@ export default function DashboardPage() {
           recentActivity={`Urgent: ${priorityTasks[0]?.title || "None"}`}
         />
       </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+        <WeeklyTaskChart />
+        <UpcomingDeadlines tasks={tasks} />
+      </div>
+
+      <ProductivityTips />
     </div>
   );
 }
