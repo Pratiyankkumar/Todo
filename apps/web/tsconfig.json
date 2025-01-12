@@ -10,7 +10,8 @@
       {
         "name": "next"
       }
-    ]
+    ],
+    "types": ["react", "framer-motion"]
   },
   "include": [
     "next-env.d.ts",

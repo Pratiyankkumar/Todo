@@ -74,7 +74,7 @@ const data = {
       items: [
         {
           title: "All todo's",
-          url: "#",
+          url: "",
         },
         {
           title: "Pending",

@@ -45,9 +45,11 @@ export function TaskDialog() {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <div className="flex cursor-pointer truncate overflow-hidden flex-row items-center gap-2 rounded-md hover:bg-gray-200 py-2 duration-300 ease-in-out">
-          <Button size="icon">
-            <Plus className="h-[12px] w-[12px] shrink-0" />
+        <div
+          className={` cursor-pointer truncate overflow-hidden flex flex-row items-center gap-2 rounded-md ${open ? "hover:bg-gray-200" : ""} py-2 duration-300 ease-in-out`}
+        >
+          <Button className={`w-8 h-8 ${open ? "ml-2" : ""}`} size="icon">
+            <Plus className="" />
           </Button>
           <p className={`${open ? "" : "hidden"}`}>Add new Todo</p>
         </div>
