@@ -49,21 +49,21 @@ const data = {
   navMain: [
     {
       title: "Dashboard",
-      url: "#",
+      url: "/",
       icon: HomeIcon,
       isActive: true,
       items: [
         {
           title: "Recent Tasks",
-          url: "#",
+          url: "/dashboard/recent",
         },
         {
           title: "Due Today",
-          url: "#",
+          url: "/dashboard/due",
         },
         {
           title: "Priority Tasks",
-          url: "#",
+          url: "/dashboard/priority",
         },
       ],
     },

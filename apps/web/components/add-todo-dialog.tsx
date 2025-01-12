@@ -10,7 +10,7 @@ import {
 } from "@workspace/ui/components/dialog";
 import { Input } from "@workspace/ui/components/input";
 import { Textarea } from "@workspace/ui/components/textarea";
-import { CalendarIcon, Star } from "lucide-react";
+import { CalendarIcon, Plus, Star } from "lucide-react";
 import { Calendar } from "@workspace/ui/components/calendar";
 import {
   Popover,
@@ -19,6 +19,7 @@ import {
 } from "@workspace/ui/components/popover";
 import { cn } from "@workspace/ui/lib/utils";
 import { format } from "date-fns";
+import { useSidebar } from "@workspace/ui/components/sidebar";
 
 const categories = ["Work", "Personal", "Household"];
 
@@ -39,10 +40,17 @@ export function TaskDialog() {
     }
   }, [description]);
 
+  const { open } = useSidebar();
+
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button variant="outline">Add New Task</Button>
+        <div className="flex cursor-pointer truncate overflow-hidden flex-row items-center gap-2 rounded-md hover:bg-gray-200 py-2 duration-300 ease-in-out">
+          <Button size="icon">
+            <Plus className="h-[12px] w-[12px] shrink-0" />
+          </Button>
+          <p className={`${open ? "" : "hidden"}`}>Add new Todo</p>
+        </div>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <div className="grid gap-4">
