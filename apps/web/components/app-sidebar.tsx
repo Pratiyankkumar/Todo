@@ -2,13 +2,16 @@
 
 import * as React from "react";
 import {
-  AudioWaveform,
+  CalendarDays,
   ChartPieIcon,
-  CheckCheckIcon,
-  Command,
   FolderIcon,
-  GalleryVerticalEnd,
   HomeIcon,
+  LayoutGrid,
+  Tags,
+  Archive,
+  Plus,
+  Projector,
+  ClipboardList,
 } from "lucide-react";
 
 import { NavMain } from "@/components/nav-main";
@@ -22,66 +25,90 @@ import {
 } from "@workspace/ui/components/sidebar";
 import { TaskDialog } from "./add-todo-dialog";
 
-// This is sample data.
 const data = {
   user: {
     name: "shadcn",
     email: "m@example.com",
     avatar: "/avatars/shadcn.jpg",
   },
-  teams: [
-    {
-      name: "Acme Inc",
-      logo: GalleryVerticalEnd,
-      plan: "Enterprise",
-    },
-    {
-      name: "Acme Corp.",
-      logo: AudioWaveform,
-      plan: "Startup",
-    },
-    {
-      name: "Evil Corp.",
-      logo: Command,
-      plan: "Free",
-    },
-  ],
   navMain: [
     {
-      title: "Dashboard",
-      url: "/",
+      title: "Today",
+      url: "#",
       icon: HomeIcon,
-      isActive: true,
       items: [
         {
-          title: "Recent Tasks",
-          url: "/dashboard/recent",
+          title: "Due Today",
+          url: "/today/due",
         },
         {
-          title: "Due Today",
-          url: "/dashboard/due",
+          title: "Overdue",
+          url: "/today/overdue",
         },
         {
           title: "Priority Tasks",
-          url: "/dashboard/priority",
+          url: "/today/priority",
         },
       ],
     },
     {
-      title: "My Todo's",
+      title: "Projects",
       url: "#",
-      icon: CheckCheckIcon,
+      icon: ClipboardList,
       items: [
         {
-          title: "All todo's",
-          url: "",
-        },
-        {
-          title: "Pending",
+          title: "Active Projects",
           url: "#",
         },
         {
-          title: "Completed",
+          title: "Completed Projects",
+          url: "#",
+        },
+        {
+          title: "Add New Project",
+          url: "#",
+          icon: Plus,
+        },
+      ],
+    },
+    {
+      title: "Smart Lists",
+      url: "#",
+      icon: LayoutGrid,
+      items: [
+        {
+          title: "Due This Week",
+          url: "#",
+        },
+        {
+          title: "Due This Month",
+          url: "#",
+        },
+        {
+          title: "High Priority",
+          url: "#",
+        },
+        {
+          title: "Recently Modified",
+          url: "#",
+        },
+      ],
+    },
+    {
+      title: "Calendar",
+      url: "#",
+      icon: CalendarDays,
+      items: [
+        {
+          title: "Month View",
+          url: "#",
+        },
+        {
+          title: "Week View",
+          url: "#",
+        },
+        {
+          title: "Upcoming Deadlines",
           url: "#",
         },
       ],
@@ -103,13 +130,74 @@ const data = {
           title: "Household",
           url: "#",
         },
+        {
+          title: "Add Category",
+          url: "#",
+          icon: Plus,
+        },
+      ],
+    },
+    {
+      title: "Tags",
+      url: "#",
+      icon: Tags,
+      items: [
+        {
+          title: "View All Tags",
+          url: "#",
+        },
+        {
+          title: "Most Used",
+          url: "#",
+        },
+        {
+          title: "Create New Tag",
+          url: "#",
+          icon: Plus,
+        },
+      ],
+    },
+    {
+      title: "Archive",
+      url: "#",
+      icon: Archive,
+      items: [
+        {
+          title: "Completed Tasks",
+          url: "#",
+        },
+        {
+          title: "Deleted Tasks",
+          url: "#",
+        },
+        {
+          title: "Export Archive",
+          url: "#",
+        },
       ],
     },
     {
       title: "Stats",
       url: "#",
       icon: ChartPieIcon,
-      items: [],
+      items: [
+        {
+          title: "Productivity Overview",
+          url: "#",
+        },
+        {
+          title: "Task Completion Rate",
+          url: "#",
+        },
+        {
+          title: "Priority Distribution",
+          url: "#",
+        },
+        {
+          title: "Time Analysis",
+          url: "#",
+        },
+      ],
     },
   ],
 };

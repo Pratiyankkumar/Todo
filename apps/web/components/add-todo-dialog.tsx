@@ -46,7 +46,7 @@ export function TaskDialog() {
     <Dialog>
       <DialogTrigger asChild>
         <div
-          className={` cursor-pointer truncate overflow-hidden flex flex-row items-center gap-2 rounded-md ${open ? "hover:bg-gray-200" : ""} py-2 duration-300 ease-in-out`}
+          className={` cursor-pointer truncate overflow-hidden flex flex-row items-center gap-2 rounded-md ${open ? "hover:bg-gray-200 hover:dark:bg-black/50" : ""} py-2 duration-300 ease-in-out`}
         >
           <Button className={`w-8 h-8 ${open ? "ml-2" : ""}`} size="icon">
             <Plus className="" />

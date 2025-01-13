@@ -8,7 +8,7 @@ import {
   CardTitle,
 } from "@workspace/ui/components/card";
 import { Button } from "@workspace/ui/components/button";
-import { PlusCircle, Info } from "lucide-react";
+import { Info } from "lucide-react";
 
 export function DashboardIntro() {
   return (
@@ -49,7 +49,7 @@ export function DashboardIntro() {
           </div>
           <div className="flex space-x-4 mt-4">
             <Button className="flex items-center">
-              <PlusCircle className="mr-2 h-4 w-4" /> Learn More
+              <Info className="mr-2 h-4 w-4" /> Learn More
             </Button>
           </div>
         </div>

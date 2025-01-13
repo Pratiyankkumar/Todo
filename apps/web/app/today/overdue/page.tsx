@@ -9,6 +9,11 @@ import {
 } from "@workspace/ui/components/card";
 
 export default function RecentTasksPage() {
+  const today: string = new Date().toISOString().split("T")[0];
+
+  const overdue = tasks.filter(
+    (task) => task.dueDate < today && !task.completed
+  );
   return (
     <div className="container mx-auto px-4 py-8">
       <Card className="overflow-hidden">
@@ -16,7 +21,12 @@ export default function RecentTasksPage() {
           <CardTitle className="text-2xl">Recent Tasks</CardTitle>
         </CardHeader>
         <CardContent className="pt-6">
-          <TaskList tasks={tasks} />
+          <TaskList
+            onTaskUpdate={function (): void {
+              throw new Error("Function not implemented.");
+            }}
+            tasks={overdue}
+          />
         </CardContent>
       </Card>
     </div>

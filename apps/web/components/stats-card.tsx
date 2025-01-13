@@ -1,4 +1,5 @@
 "use client";
+
 import {
   Card,
   CardContent,
@@ -54,7 +55,7 @@ export function StatsCard({
   };
 
   return (
-    <Card className="overflow-hidden transition-all duration-300 hover:shadow-lg">
+    <Card className="overflow-hidden transition-all duration-300 hover:shadow-lg dark:hover:shadow-gray-800">
       <CardHeader className={`bg-gradient-to-r ${getGradient()} p-6`}>
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-3">
@@ -64,33 +65,33 @@ export function StatsCard({
           <span className="text-4xl font-bold text-white">{totalTasks}</span>
         </div>
       </CardHeader>
-      <CardContent className="p-6">
+      <CardContent className="p-6 dark:bg-gray-800">
         <div className="mb-4">
           <div className="flex justify-between mb-2">
-            <span className="text-sm font-medium text-gray-700">
+            <span className="text-sm font-medium text-gray-700 dark:text-gray-200">
               Completion
             </span>
-            <span className="text-sm font-medium text-gray-700">
+            <span className="text-sm font-medium text-gray-700 dark:text-gray-200">
               {completionPercentage}%
             </span>
           </div>
           <Progress value={completionPercentage} className="h-2" />
         </div>
-        <div className="flex items-center space-x-2 text-sm text-gray-600">
+        <div className="flex items-center space-x-2 text-sm text-gray-600 dark:text-gray-300">
           <CheckCircle2 className="h-4 w-4 text-green-500" />
           <span>
             {completedTasks} of {totalTasks} tasks completed
           </span>
         </div>
       </CardContent>
-      <CardFooter className="bg-gray-50 p-4">
+      <CardFooter className="bg-gray-50 p-4 dark:bg-gray-900">
         <div className="flex items-center justify-between w-full">
-          <span className="text-sm text-gray-600 truncate flex-1">
+          <span className="text-sm text-gray-600 dark:text-gray-300 truncate flex-1">
             {recentActivity}
           </span>
           <Link
             href={href}
-            className="flex items-center text-blue-600 hover:text-blue-800 transition-colors"
+            className="flex items-center text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 transition-colors"
           >
             <span className="text-sm font-medium mr-1">View All</span>
             <ArrowRight className="h-4 w-4" />

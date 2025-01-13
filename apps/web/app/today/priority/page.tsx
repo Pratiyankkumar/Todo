@@ -9,7 +9,7 @@ import {
 } from "@workspace/ui/components/card";
 
 export default function PriorityTasksPage() {
-  const priorityTasks = tasks.filter((task) => task.priority === "high");
+  const priorityTasks = tasks.filter((task) => task.priority === "1");
 
   return (
     <div className="container mx-auto px-4 py-8">
@@ -18,7 +18,12 @@ export default function PriorityTasksPage() {
           <CardTitle className="text-2xl">Priority Tasks</CardTitle>
         </CardHeader>
         <CardContent className="pt-6">
-          <TaskList tasks={priorityTasks} />
+          <TaskList
+            onTaskUpdate={function (): void {
+              throw new Error("Function not implemented.");
+            }}
+            tasks={priorityTasks}
+          />
         </CardContent>
       </Card>
     </div>
