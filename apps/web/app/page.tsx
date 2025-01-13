@@ -22,7 +22,7 @@ export default function Home() {
                 </p>
               </div>
               <div className="space-x-4">
-                <Link href="/dashboard">
+                <Link href="/today">
                   <Button size="lg">Get Started</Button>
                 </Link>
                 <Button variant="outline" size="lg">

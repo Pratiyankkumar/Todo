@@ -1,8 +1,9 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Button } from "@workspace/ui/components/button"; // assuming you're using shadcn button
+import { Button } from "@workspace/ui/components/button";
 import { useTheme } from "next-themes";
+import { Sun, Moon } from "lucide-react";
 
 export function ThemeToggle() {
   const [mounted, setMounted] = useState(false);
@@ -12,17 +13,25 @@ export function ThemeToggle() {
     setMounted(true);
   }, []);
 
-  // Return null or a skeleton while mounting to prevent hydration mismatch
   if (!mounted) {
-    return <Button className="mr-3">Loading...</Button>;
+    return (
+      <Button variant="ghost" size="icon" className="relative h-9 w-9">
+        <div className="animate-pulse h-4 w-4 rounded-full bg-muted"></div>
+      </Button>
+    );
   }
 
   return (
     <Button
+      variant="ghost"
+      size="icon"
       onClick={() => setTheme(theme === "light" ? "dark" : "light")}
-      className="mr-3"
+      className="relative h-9  mr-4 w-9 transition-all duration-200 hover:bg-accent"
+      title={theme === "dark" ? "Switch to light mode" : "Switch to dark mode"}
     >
-      {theme === "dark" ? "Light Mode" : "Dark Mode"}
+      <Sun className="h-4 w-4 rotate-0 scale-100 transition-all duration-200 dark:-rotate-90 dark:scale-0" />
+      <Moon className="absolute h-4 w-4 rotate-90 scale-0 transition-all duration-200 dark:rotate-0 dark:scale-100" />
+      <span className="sr-only">Toggle theme</span>
     </Button>
   );
 }

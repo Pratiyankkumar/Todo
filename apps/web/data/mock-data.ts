@@ -111,3 +111,33 @@ export const tasks: Task[] = [
     createdAt: "2023-06-19T15:00:00Z",
   },
 ];
+
+export const initialProjects = [
+  {
+    id: "1",
+    title: "Website Redesign",
+    description:
+      "Overhaul the company website with a modern, responsive design",
+    dueDate: new Date("2023-08-15"),
+    status: "In Progress",
+    priority: "High",
+    link: "https://example.com/website-redesign",
+  },
+  {
+    id: "2",
+    title: "Mobile App Development",
+    description: "Create a cross-platform mobile app for our service",
+    dueDate: new Date("2023-09-30"),
+    status: "Not Started",
+    priority: "Medium",
+    link: "https://example.com/mobile-app",
+  },
+  {
+    id: "3",
+    title: "Customer Feedback Analysis",
+    description: "Analyze recent customer feedback and prepare a report",
+    dueDate: new Date("2023-07-10"),
+    status: "Completed",
+    priority: "Low",
+  },
+];

@@ -10,7 +10,6 @@ import {
   Tags,
   Archive,
   Plus,
-  Projector,
   ClipboardList,
 } from "lucide-react";
 
@@ -34,7 +33,7 @@ const data = {
   navMain: [
     {
       title: "Today",
-      url: "#",
+      url: "/today",
       icon: HomeIcon,
       items: [
         {
@@ -53,7 +52,7 @@ const data = {
     },
     {
       title: "Projects",
-      url: "#",
+      url: "/projects",
       icon: ClipboardList,
       items: [
         {

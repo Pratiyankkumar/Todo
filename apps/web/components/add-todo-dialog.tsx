@@ -20,6 +20,7 @@ import {
 import { cn } from "@workspace/ui/lib/utils";
 import { format } from "date-fns";
 import { useSidebar } from "@workspace/ui/components/sidebar";
+import { initialProjects } from "@/data/mock-data";
 
 const categories = ["Work", "Personal", "Household"];
 
@@ -29,6 +30,7 @@ export function TaskDialog() {
   const [date, setDate] = React.useState<Date>();
   const [priority, setPriority] = React.useState<number | null>(null);
   const [category, setCategory] = React.useState<string | null>(null);
+  const [project, setProject] = React.useState<string | null>(null);
   const textareaRef = React.useRef<HTMLTextAreaElement>(null);
 
   // Handle textarea auto-resize
@@ -153,6 +155,44 @@ export function TaskDialog() {
                       onClick={() => setCategory(p)}
                     >
                       {p}
+                    </Button>
+                  ))}
+                </div>
+              </PopoverContent>
+            </Popover>
+            <Popover>
+              <PopoverTrigger asChild>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  className={cn(
+                    "h-8 border-dashed justify-start text-left font-normal",
+                    !project && "text-muted-foreground"
+                  )}
+                >
+                  <Star className="mr-2 h-4 w-4" />
+                  {project ? project : "No Project"}
+                </Button>
+              </PopoverTrigger>
+              <PopoverContent className="w-auto p-0" align="start">
+                <div className="p-2">
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    className="w-full justify-start"
+                    onClick={() => setProject("")} // or setProject(null) depending on your state type
+                  >
+                    No Project
+                  </Button>
+                  {initialProjects.map((p, i) => (
+                    <Button
+                      key={i}
+                      variant="ghost"
+                      size="sm"
+                      className="w-full justify-start"
+                      onClick={() => setProject(p.title)}
+                    >
+                      {p.title}
                     </Button>
                   ))}
                 </div>
