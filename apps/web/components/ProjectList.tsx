@@ -16,6 +16,9 @@ import {
   DialogFooter,
 } from "@workspace/ui/components/dialog";
 import { AddProjectDialog } from "./AddProjectDialog";
+import { tasks } from "@/data/mock-data";
+import { getStatusColor } from "@/utils/getStatusColor";
+import { getPriorityColor } from "@/utils/getPriorityColor";
 
 interface Project {
   id: string;
@@ -25,6 +28,7 @@ interface Project {
   status: string;
   priority: string;
   link?: string;
+  taskIds: string[];
 }
 
 interface ProjectListProps {
@@ -38,36 +42,6 @@ export function ProjectList({
 }: ProjectListProps) {
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
-
-  const getStatusColor = (status: string) => {
-    switch (status) {
-      case "Completed":
-        return "bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400";
-      case "In Progress":
-        return "bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-400";
-      case "Not Started":
-        return "bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400";
-      case "On Hold":
-        return "bg-gray-100 text-gray-800 dark:bg-gray-800 dark:text-gray-400";
-      default:
-        return "bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-400";
-    }
-  };
-
-  const getPriorityColor = (priority: string) => {
-    switch (priority) {
-      case "Urgent":
-        return "bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400";
-      case "High":
-        return "bg-orange-100 text-orange-800 dark:bg-orange-900/30 dark:text-orange-400";
-      case "Medium":
-        return "bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-400";
-      case "Low":
-        return "bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400";
-      default:
-        return "bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-400";
-    }
-  };
 
   const handleEditProject = (project: Project) => {
     setSelectedProject(project);
@@ -179,7 +153,7 @@ export function ProjectList({
               {selectedProject?.title}
             </DialogTitle>
           </DialogHeader>
-          <div className="space-y-6 py-4">
+          <div className="space-y-6 max-h-[70vh] overflow-y-auto  scrollbar-hide py-4">
             <div className="space-y-2">
               <h3 className="font-medium text-muted-foreground">Description</h3>
               <p className="text-sm">{selectedProject?.description}</p>
@@ -214,6 +188,51 @@ export function ProjectList({
                 </div>
               </div>
             </div>
+
+            {/* Add this new section for tasks */}
+            {selectedProject?.taskIds && selectedProject.taskIds.length > 0 && (
+              <div className="space-y-3">
+                <h3 className="font-medium text-muted-foreground">Tasks</h3>
+                <div className="space-y-2">
+                  {selectedProject.taskIds.map((taskId) => {
+                    const task = tasks.find((t) => t.id === taskId);
+                    if (!task) return null;
+
+                    return (
+                      <div
+                        key={task.id}
+                        className="rounded-lg border p-3 dark:border-gray-700"
+                      >
+                        <div className="flex items-center justify-between mb-2">
+                          <h4 className="font-medium">{task.title}</h4>
+                          <Badge
+                            variant="secondary"
+                            className={getStatusColor(task.status)}
+                          >
+                            {task.status}
+                          </Badge>
+                        </div>
+                        <p className="text-sm text-muted-foreground mb-2">
+                          {task.description}
+                        </p>
+                        <div className="flex items-center justify-between text-sm text-muted-foreground">
+                          <div className="flex items-center">
+                            <Calendar className="mr-2 h-4 w-4" />
+                            {task.dueDate}
+                          </div>
+                          <Badge
+                            variant="secondary"
+                            className={getPriorityColor(task.priority)}
+                          >
+                            {task.priority}
+                          </Badge>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            )}
 
             {selectedProject?.link && (
               <div className="space-y-2">

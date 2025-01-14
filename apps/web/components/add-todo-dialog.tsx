@@ -23,14 +23,17 @@ import { useSidebar } from "@workspace/ui/components/sidebar";
 import { initialProjects } from "@/data/mock-data";
 
 const categories = ["Work", "Personal", "Household"];
+const priorities = ["High", "Medium", "Low"];
+const statusType = ["In Progress", "Not Started", "Completed"];
 
 export function TaskDialog() {
   const [title, setTitle] = React.useState("");
   const [description, setDescription] = React.useState("");
   const [date, setDate] = React.useState<Date>();
-  const [priority, setPriority] = React.useState<number | null>(null);
+  const [priority, setPriority] = React.useState<string | null>(null);
   const [category, setCategory] = React.useState<string | null>(null);
   const [project, setProject] = React.useState<string | null>(null);
+  const [status, setStatus] = React.useState<string | null>(null);
   const textareaRef = React.useRef<HTMLTextAreaElement>(null);
 
   // Handle textarea auto-resize
@@ -111,12 +114,12 @@ export function TaskDialog() {
                   )}
                 >
                   <Star className="mr-2 h-4 w-4" />
-                  {priority ? `Priority ${priority}` : "Priority"}
+                  {priority ? `${priority}` : "Priority"}
                 </Button>
               </PopoverTrigger>
               <PopoverContent className="w-auto p-0" align="start">
                 <div className="p-2">
-                  {[1, 2, 3, 4].map((p) => (
+                  {priorities.map((p) => (
                     <Button
                       key={p}
                       variant="ghost"
@@ -124,7 +127,7 @@ export function TaskDialog() {
                       className="w-full justify-start"
                       onClick={() => setPriority(p)}
                     >
-                      Priority {p}
+                      {p}
                     </Button>
                   ))}
                 </div>
@@ -153,6 +156,36 @@ export function TaskDialog() {
                       size="sm"
                       className="w-full justify-start"
                       onClick={() => setCategory(p)}
+                    >
+                      {p}
+                    </Button>
+                  ))}
+                </div>
+              </PopoverContent>
+            </Popover>
+            <Popover>
+              <PopoverTrigger asChild>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  className={cn(
+                    "w-[120px] h-8 border-dashed justify-start text-left font-normal",
+                    !status && "text-muted-foreground"
+                  )}
+                >
+                  <Star className="mr-2 h-4 w-4" />
+                  {status ? status : "Status"}
+                </Button>
+              </PopoverTrigger>
+              <PopoverContent className="w-auto p-0" align="start">
+                <div className="p-2">
+                  {statusType.map((p) => (
+                    <Button
+                      key={p}
+                      variant="ghost"
+                      size="sm"
+                      className="w-full justify-start"
+                      onClick={() => setStatus(p)}
                     >
                       {p}
                     </Button>

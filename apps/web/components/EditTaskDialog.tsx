@@ -11,10 +11,6 @@ import { Input } from "@workspace/ui/components/input";
 import { Textarea } from "@workspace/ui/components/textarea";
 import { Label } from "@workspace/ui/components/label";
 import {
-  RadioGroup,
-  RadioGroupItem,
-} from "@workspace/ui/components/radio-group";
-import {
   Select,
   SelectContent,
   SelectItem,
@@ -119,7 +115,7 @@ export function EditTaskDialog({
             <Label htmlFor="priority" className="text-right">
               Priority
             </Label>
-            <RadioGroup
+            <Select
               defaultValue={editedTask.priority}
               onValueChange={(value: string) =>
                 setEditedTask({
@@ -127,25 +123,39 @@ export function EditTaskDialog({
                   priority: value as Task["priority"],
                 })
               }
-              className="col-span-3 flex space-x-2"
             >
-              <div className="flex items-center space-x-2">
-                <RadioGroupItem value="1" id="priority-1" />
-                <Label htmlFor="priority-1">1</Label>
-              </div>
-              <div className="flex items-center space-x-2">
-                <RadioGroupItem value="2" id="priority-2" />
-                <Label htmlFor="priority-2">2</Label>
-              </div>
-              <div className="flex items-center space-x-2">
-                <RadioGroupItem value="3" id="priority-3" />
-                <Label htmlFor="priority-3">3</Label>
-              </div>
-              <div className="flex items-center space-x-2">
-                <RadioGroupItem value="4" id="priority-4" />
-                <Label htmlFor="priority-4">4</Label>
-              </div>
-            </RadioGroup>
+              <SelectTrigger className="col-span-3">
+                <SelectValue placeholder="Select a category" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="Work">High</SelectItem>
+                <SelectItem value="Personal">Medium</SelectItem>
+                <SelectItem value="Household">Low</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+          <div className="grid grid-cols-4 items-center gap-4">
+            <Label htmlFor="priority" className="text-right">
+              Status
+            </Label>
+            <Select
+              defaultValue={editedTask.status}
+              onValueChange={(value: string) =>
+                setEditedTask({
+                  ...editedTask,
+                  status: value as Task["status"],
+                })
+              }
+            >
+              <SelectTrigger className="col-span-3">
+                <SelectValue placeholder="Select a category" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="Work">In Progress</SelectItem>
+                <SelectItem value="Personal">Not Started</SelectItem>
+                <SelectItem value="Household">Completed</SelectItem>
+              </SelectContent>
+            </Select>
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
             <Label htmlFor="category" className="text-right">

@@ -10,6 +10,8 @@ import {
 import { EditTaskDialog } from "./EditTaskDialog";
 import { TaskDetailsModal } from "@/components/task-details-modal";
 import { Check, Edit, Eye } from "lucide-react";
+import { getStatusColor } from "@/utils/getStatusColor";
+import { getPriorityColor } from "@/utils/getPriorityColor";
 
 interface TaskListProps {
   tasks: Task[];
@@ -21,7 +23,7 @@ export function TaskList({ tasks, onTaskUpdate }: TaskListProps) {
   const [viewingTask, setViewingTask] = useState<Task | null>(null);
 
   const handleMarkCompleted = (task: Task) => {
-    onTaskUpdate({ ...task, completed: true });
+    onTaskUpdate({ ...task, status: "Completed" });
   };
 
   const handleEditTask = (updatedTask: Task) => {
@@ -72,7 +74,9 @@ export function TaskList({ tasks, onTaskUpdate }: TaskListProps) {
                     onClick={() => handleMarkCompleted(task)}
                   >
                     <Check className="mr-2 h-4 w-4" />
-                    {task.completed ? "Mark Incomplete" : "Mark Completed"}
+                    {task.status === "Completed"
+                      ? "Mark Incomplete"
+                      : "Mark Completed"}
                   </Button>
                   <Button
                     variant="ghost"
@@ -87,29 +91,12 @@ export function TaskList({ tasks, onTaskUpdate }: TaskListProps) {
             </Popover>
             <Badge
               variant="outline"
-              className={`transition-all duration-200 ${
-                task.priority === "1"
-                  ? "bg-red-100 text-red-800 border-red-300 group-hover:bg-red-200 dark:bg-red-900/30 dark:text-red-300 dark:border-red-700 dark:group-hover:bg-red-900/50"
-                  : task.priority === "2"
-                    ? "bg-orange-100 text-orange-800 border-orange-300 group-hover:bg-orange-200 dark:bg-orange-900/30 dark:text-orange-300 dark:border-orange-700 dark:group-hover:bg-orange-900/50"
-                    : task.priority === "3"
-                      ? "bg-yellow-100 text-yellow-800 border-yellow-300 group-hover:bg-yellow-200 dark:bg-yellow-900/30 dark:text-yellow-300 dark:border-yellow-700 dark:group-hover:bg-yellow-900/50"
-                      : "bg-green-100 text-green-800 border-green-300 group-hover:bg-green-200 dark:bg-green-900/30 dark:text-green-300 dark:border-green-700 dark:group-hover:bg-green-900/50"
-              } px-2 py-1 rounded-full text-xs font-semibold`}
+              className={getPriorityColor(task.priority)}
             >
-              P{task.priority}
+              {task.priority}
             </Badge>
-            <Badge
-              variant="outline"
-              className={`transition-all duration-200 ${
-                task.completed === false
-                  ? "bg-red-100 text-red-800 border-red-300 group-hover:bg-red-200 dark:bg-red-900/30 dark:text-red-300 dark:border-red-700 dark:group-hover:bg-red-900/50"
-                  : task.completed === true
-                    ? "bg-yellow-100 text-yellow-800 border-yellow-300 group-hover:bg-yellow-200 dark:bg-yellow-900/30 dark:text-yellow-300 dark:border-yellow-700 dark:group-hover:bg-yellow-900/50"
-                    : "bg-green-100 text-green-800 border-green-300 group-hover:bg-green-200 dark:bg-green-900/30 dark:text-green-300 dark:border-green-700 dark:group-hover:bg-green-900/50"
-              } px-2 py-1 rounded-full text-xs font-semibold`}
-            >
-              {task.completed ? "Completed" : "Not Completed"}
+            <Badge variant="outline" className={getStatusColor(task.status)}>
+              {task.status}
             </Badge>
           </div>
           {editingTask && editingTask.id === task.id && (

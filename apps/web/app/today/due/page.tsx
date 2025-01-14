@@ -1,6 +1,6 @@
 "use client";
 
-import { Task, tasks } from "@/data/mock-data";
+import { tasks } from "@/data/mock-data";
 import { TaskList } from "@/components/task-list";
 import {
   Card,
@@ -10,7 +10,7 @@ import {
 } from "@workspace/ui/components/card";
 
 export default function DueTasksPage() {
-  const dueTasks = tasks.filter((task) => task.completed === false);
+  const dueTasks = tasks.filter((task) => task.status !== "Completed");
 
   return (
     <div className="container mx-auto px-4 py-8">

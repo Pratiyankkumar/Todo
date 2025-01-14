@@ -57,22 +57,17 @@ const data = {
       items: [
         {
           title: "Active Projects",
-          url: "#",
+          url: "/projects/active",
         },
         {
           title: "Completed Projects",
-          url: "#",
-        },
-        {
-          title: "Add New Project",
-          url: "#",
-          icon: Plus,
+          url: "/projects/completed",
         },
       ],
     },
     {
       title: "Smart Lists",
-      url: "#",
+      url: "/smart",
       icon: LayoutGrid,
       items: [
         {

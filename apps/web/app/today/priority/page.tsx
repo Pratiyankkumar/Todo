@@ -9,7 +9,7 @@ import {
 } from "@workspace/ui/components/card";
 
 export default function PriorityTasksPage() {
-  const priorityTasks = tasks.filter((task) => task.priority === "1");
+  const priorityTasks = tasks.filter((task) => task.priority === "High");
 
   return (
     <div className="container mx-auto px-4 py-8">

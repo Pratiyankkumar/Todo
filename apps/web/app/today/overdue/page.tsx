@@ -12,7 +12,7 @@ export default function RecentTasksPage() {
   const today: string = new Date().toISOString().split("T")[0];
 
   const overdue = tasks.filter(
-    (task) => task.dueDate < today && !task.completed
+    (task) => task.dueDate < today && task.status !== "Completed"
   );
   return (
     <div className="container mx-auto px-4 py-8">
