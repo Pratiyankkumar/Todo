@@ -33,6 +33,7 @@ import {
 } from "recharts";
 
 import { tasks } from "@/data/mock-data";
+import { getPriorityColor } from "@/utils/getPriorityColor";
 // import { Task } from "@/data/mock-data";
 
 // interface SmartListsProps {
@@ -76,19 +77,6 @@ export default function SmartListsDashboard() {
       ).length,
     };
   });
-
-  const getPriorityColor = (priority: string) => {
-    switch (priority) {
-      case "High":
-        return "text-red-500 bg-red-100 dark:bg-red-900/30";
-      case "Medium":
-        return "text-yellow-500 bg-yellow-100 dark:bg-yellow-900/30";
-      case "Low":
-        return "text-green-500 bg-green-100 dark:bg-green-900/30";
-      default:
-        return "text-blue-500 bg-blue-100 dark:bg-blue-900/30";
-    }
-  };
 
   const getCategoryColor = (category: string) => {
     switch (category) {
@@ -206,7 +194,7 @@ export default function SmartListsDashboard() {
         {/* Due Soon */}
         <Card>
           <CardHeader>
-            <CardTitle className="text-lg">Due Soon</CardTitle>
+            <CardTitle className="text-lg">Due This Week</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="space-y-4">
@@ -248,11 +236,11 @@ export default function SmartListsDashboard() {
         {/* High Priority */}
         <Card>
           <CardHeader>
-            <CardTitle className="text-lg">High Priority</CardTitle>
+            <CardTitle className="text-lg">Due this month</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="space-y-4">
-              {highPriority.slice(0, 3).map((task) => (
+              {dueThisMonth.slice(0, 3).map((task) => (
                 <div
                   key={task.id}
                   className="flex items-center justify-between"

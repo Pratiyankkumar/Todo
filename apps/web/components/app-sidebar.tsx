@@ -72,15 +72,11 @@ const data = {
       items: [
         {
           title: "Due This Week",
-          url: "#",
+          url: "/smart/dueWeek",
         },
         {
           title: "Due This Month",
-          url: "#",
-        },
-        {
-          title: "High Priority",
-          url: "#",
+          url: "/smart/dueMonth",
         },
         {
           title: "Recently Modified",
@@ -90,7 +86,7 @@ const data = {
     },
     {
       title: "Calendar",
-      url: "#",
+      url: "/calendar",
       icon: CalendarDays,
       items: [
         {
