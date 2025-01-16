@@ -19,13 +19,13 @@ export default function AcrtivePage() {
     setProjects([...projects, { ...newProject, id: Date.now().toString() }]);
   };
 
-  const handleUpdateProject = (updatedProject: InitialProjects) => {
-    setProjects(
-      activeProjects.map((project) =>
-        project.id === updatedProject.id ? updatedProject : project
-      )
-    );
-  };
+  // const handleUpdateProject = (updatedProject: InitialProjects) => {
+  //   setProjects(
+  //     activeProjects.map((project) =>
+  //       project.id === updatedProject.id ? updatedProject : project
+  //     )
+  //   );
+  // };
 
   return (
     <div className="container mx-auto px-4 py-8">
@@ -36,7 +36,7 @@ export default function AcrtivePage() {
       </div>
       <ProjectList
         projects={activeProjects}
-        onUpdateProject={() => handleUpdateProject}
+        // onUpdateProject={() => handleUpdateProject}
       />
       <AddProjectDialog
         isOpen={isAddProjectDialogOpen}
