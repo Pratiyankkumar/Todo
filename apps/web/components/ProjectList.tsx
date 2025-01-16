@@ -33,12 +33,12 @@ interface Project {
 
 interface ProjectListProps {
   projects?: Project[];
-  onUpdateProject: (updatedProject: Project) => void;
+  // onUpdateProject?: (updatedProject: Project) => void;
 }
 
 export function ProjectList({
   projects = [],
-  onUpdateProject,
+  // onUpdateProject,
 }: ProjectListProps) {
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
@@ -48,11 +48,11 @@ export function ProjectList({
     setIsEditDialogOpen(true);
   };
 
-  const handleUpdateProject = (updatedProject: Project) => {
-    onUpdateProject(updatedProject);
-    setIsEditDialogOpen(false);
-    setSelectedProject(null);
-  };
+  // const handleUpdateProject = (updatedProject: Project) => {
+  //   // onUpdateProject(updatedProject);
+  //   setIsEditDialogOpen(false);
+  //   setSelectedProject(null);
+  // };
 
   const handleCloseEditDialog = () => {
     setIsEditDialogOpen(false);
@@ -261,7 +261,7 @@ export function ProjectList({
         <AddProjectDialog
           isOpen={isEditDialogOpen}
           onClose={handleCloseEditDialog}
-          onSave={() => handleUpdateProject}
+          // onSave={() => handleUpdateProject}
           initialProject={selectedProject}
         />
       )}

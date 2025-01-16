@@ -9,20 +9,21 @@ import { AddProjectDialog } from "@/components/AddProjectDialog";
 import { initialProjects } from "@/data/mock-data";
 
 export default function ProjectsPage() {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [projects, setProjects] = useState(initialProjects);
   const [isAddProjectDialogOpen, setIsAddProjectDialogOpen] = useState(false);
 
-  const handleAddProject = (newProject: any) => {
-    setProjects([...projects, { ...newProject, id: Date.now().toString() }]);
-  };
+  // const handleAddProject = (newProject: InitialProjects) => {
+  //   setProjects([...projects, { ...newProject, id: Date.now().toString() }]);
+  // };
 
-  const handleUpdateProject = (updatedProject: any) => {
-    setProjects(
-      projects.map((project) =>
-        project.id === updatedProject.id ? updatedProject : project
-      )
-    );
-  };
+  // const handleUpdateProject = (updatedProject: InitialProjects) => {
+  //   setProjects(
+  //     projects.map((project) =>
+  //       project.id === updatedProject.id ? updatedProject : project
+  //     )
+  //   );
+  // };
 
   return (
     <div className="container mx-auto px-4 py-8">
@@ -31,11 +32,14 @@ export default function ProjectsPage() {
           Add New Project
         </Button>
       </div>
-      <ProjectList projects={projects} onUpdateProject={handleUpdateProject} />
+      <ProjectList
+        projects={projects}
+        //  onUpdateProject={handleUpdateProject}
+      />
       <AddProjectDialog
         isOpen={isAddProjectDialogOpen}
         onClose={() => setIsAddProjectDialogOpen(false)}
-        onSave={handleAddProject}
+        // onSave={handleAddProject}
       />
     </div>
   );

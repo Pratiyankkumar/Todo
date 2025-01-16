@@ -39,14 +39,13 @@ interface Project {
 interface AddProjectDialogProps {
   isOpen: boolean;
   onClose: () => void;
-  onSave: (project: Project) => void;
+  onSave?: (project: Project) => void;
   initialProject?: Project;
 }
 
 export function AddProjectDialog({
   isOpen,
   onClose,
-  onSave,
   initialProject,
 }: AddProjectDialogProps) {
   const [project, setProject] = useState<Project>({
@@ -65,7 +64,7 @@ export function AddProjectDialog({
   }, [initialProject]);
 
   const handleSave = () => {
-    onSave(project);
+    // onSave(project);
     onClose();
   };
 

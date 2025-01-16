@@ -7,9 +7,7 @@ import {
   FolderIcon,
   HomeIcon,
   LayoutGrid,
-  Tags,
   Archive,
-  Plus,
   ClipboardList,
 } from "lucide-react";
 
