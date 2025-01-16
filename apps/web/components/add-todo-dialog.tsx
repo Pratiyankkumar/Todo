@@ -177,7 +177,7 @@ export function TaskDialog() {
                   {status ? status : "Status"}
                 </Button>
               </PopoverTrigger>
-              <PopoverContent className="w-auto p-0" align="start">
+              <PopoverContent className="w-[160px] p-0" align="start">
                 <div className="p-2">
                   {statusType.map((p) => (
                     <Button
@@ -207,7 +207,7 @@ export function TaskDialog() {
                   {project ? project : "No Project"}
                 </Button>
               </PopoverTrigger>
-              <PopoverContent className="w-auto p-0" align="start">
+              <PopoverContent className="w-[160px] p-0" align="start">
                 <div className="p-2">
                   <Button
                     variant="ghost"
@@ -225,7 +225,9 @@ export function TaskDialog() {
                       className="w-full justify-start"
                       onClick={() => setProject(p.title)}
                     >
-                      {p.title}
+                      {p.title.length > 10
+                        ? `${p.title.slice(0, 11)}...`
+                        : p.title}
                     </Button>
                   ))}
                 </div>

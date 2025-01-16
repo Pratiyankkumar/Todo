@@ -34,6 +34,7 @@ import {
 
 import { tasks } from "@/data/mock-data";
 import { getPriorityColor } from "@/utils/getPriorityColor";
+import { useRouter } from "next/navigation";
 // import { Task } from "@/data/mock-data";
 
 // interface SmartListsProps {
@@ -45,6 +46,7 @@ import { getPriorityColor } from "@/utils/getPriorityColor";
 // }
 
 export default function SmartListsDashboard() {
+  const router = useRouter();
   // Calculate statistics
   const today = new Date();
   const thisWeek = new Date(today.getTime() + 7 * 24 * 60 * 60 * 1000);
@@ -226,7 +228,14 @@ export default function SmartListsDashboard() {
                   </div>
                 </div>
               ))}
-              <Button variant="ghost" className="w-full" size="sm">
+              <Button
+                onClick={() => {
+                  router.push(`smart/dueWeek`);
+                }}
+                variant="ghost"
+                className="w-full"
+                size="sm"
+              >
                 View all <ArrowRight className="ml-2 h-4 w-4" />
               </Button>
             </div>
@@ -260,7 +269,14 @@ export default function SmartListsDashboard() {
                   </Badge>
                 </div>
               ))}
-              <Button variant="ghost" className="w-full" size="sm">
+              <Button
+                onClick={() => {
+                  router.push(`smart/dueMonth`);
+                }}
+                variant="ghost"
+                className="w-full"
+                size="sm"
+              >
                 View all <ArrowRight className="ml-2 h-4 w-4" />
               </Button>
             </div>
@@ -296,7 +312,14 @@ export default function SmartListsDashboard() {
                   </div>
                 </div>
               ))}
-              <Button variant="ghost" className="w-full" size="sm">
+              <Button
+                onClick={() => {
+                  router.push(`smart/recent`);
+                }}
+                variant="ghost"
+                className="w-full"
+                size="sm"
+              >
                 View all <ArrowRight className="ml-2 h-4 w-4" />
               </Button>
             </div>

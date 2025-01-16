@@ -50,7 +50,7 @@ export function TaskList({ tasks, onTaskUpdate }: TaskListProps) {
             <Button
               variant="ghost"
               size="icon"
-              className="h-8 w-8 p-0 text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white"
+              className="h-8 w-8 p-0 text-gray-600 opacity-0 transition-opacity group-hover:opacity-100 duration-300 ease-in-out dark:text-gray-300 hover:text-gray-900 dark:hover:text-white"
               onClick={() => setViewingTask(task)}
             >
               <Eye className="h-4 w-4" />
@@ -60,10 +60,10 @@ export function TaskList({ tasks, onTaskUpdate }: TaskListProps) {
               <PopoverTrigger asChild>
                 <Button
                   variant="ghost"
-                  className="h-8 w-8 p-0 text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white"
+                  className="h-8 w-8 p-0 text-gray-600 opacity-0 transition-opacity group-hover:opacity-100 duration-300 ease-in-out dark:text-gray-300 hover:text-gray-900 dark:hover:text-white"
                 >
                   <span className="sr-only">Open menu</span>
-                  <Edit className="h-4 w-4" />
+                  <Edit className="h-4 w-4 " />
                 </Button>
               </PopoverTrigger>
               <PopoverContent className=" dark:bg-gray-800 dark:border-gray-700">
@@ -80,7 +80,7 @@ export function TaskList({ tasks, onTaskUpdate }: TaskListProps) {
                   </Button>
                   <Button
                     variant="ghost"
-                    className="justify-start text-gray-700 dark:text-gray-200 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
+                    className="justify-start text-gray-700  dark:text-gray-200 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
                     onClick={() => setEditingTask(task)}
                   >
                     <Edit className="mr-2 h-4 w-4" />

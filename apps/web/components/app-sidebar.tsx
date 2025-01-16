@@ -80,7 +80,7 @@ const data = {
         },
         {
           title: "Recently Modified",
-          url: "#",
+          url: "/smart/recent",
         },
       ],
     },
@@ -90,60 +90,31 @@ const data = {
       icon: CalendarDays,
       items: [
         {
-          title: "Month View",
-          url: "#",
-        },
-        {
           title: "Week View",
-          url: "#",
+          url: "/calendar/week",
         },
         {
           title: "Upcoming Deadlines",
-          url: "#",
+          url: "/calendar/deadlines",
         },
       ],
     },
     {
       title: "Categories",
-      url: "#",
+      url: "/category",
       icon: FolderIcon,
       items: [
         {
           title: "Work",
-          url: "#",
+          url: "/category/work",
         },
         {
           title: "Personal",
-          url: "#",
+          url: "/category/personal",
         },
         {
           title: "Household",
-          url: "#",
-        },
-        {
-          title: "Add Category",
-          url: "#",
-          icon: Plus,
-        },
-      ],
-    },
-    {
-      title: "Tags",
-      url: "#",
-      icon: Tags,
-      items: [
-        {
-          title: "View All Tags",
-          url: "#",
-        },
-        {
-          title: "Most Used",
-          url: "#",
-        },
-        {
-          title: "Create New Tag",
-          url: "#",
-          icon: Plus,
+          url: "/category/household",
         },
       ],
     },
@@ -168,24 +139,12 @@ const data = {
     },
     {
       title: "Stats",
-      url: "#",
+      url: "/stats",
       icon: ChartPieIcon,
       items: [
         {
           title: "Productivity Overview",
-          url: "#",
-        },
-        {
-          title: "Task Completion Rate",
-          url: "#",
-        },
-        {
-          title: "Priority Distribution",
-          url: "#",
-        },
-        {
-          title: "Time Analysis",
-          url: "#",
+          url: "/stats/productivity",
         },
       ],
     },
