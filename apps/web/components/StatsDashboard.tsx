@@ -86,7 +86,7 @@ export function StatsDashboard({ tasks }: StatsProps) {
   const COLORS = ["#FF8042", "#00C49F", "#FFBB28", "#0088FE"];
 
   return (
-    <div className="space-y-6 ml-4 mr-4">
+    <div className="space-y-6 ml-4 mb-4 mr-4">
       {/* Productivity Overview */}
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
         <Card>

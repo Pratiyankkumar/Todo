@@ -18,7 +18,7 @@ export default function RecentTasksPage() {
     <div className="container mx-auto px-4 py-8">
       <Card className="overflow-hidden">
         <CardHeader className="bg-gradient-to-r from-blue-500 to-blue-600 text-white">
-          <CardTitle className="text-2xl">Recent Tasks</CardTitle>
+          <CardTitle className="text-2xl">Overdue</CardTitle>
         </CardHeader>
         <CardContent className="pt-6">
           <TaskList
