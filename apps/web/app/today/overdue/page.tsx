@@ -9,10 +9,15 @@ import {
 } from "@workspace/ui/components/card";
 
 export default function RecentTasksPage() {
-  const today: string = new Date().toISOString().split("T")[0];
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const today: any = new Date().toISOString().split("T")[0];
+  console.log(typeof today);
 
   const overdue = tasks.filter(
-    (task) => task.dueDate < today && task.status !== "Completed"
+    (task) =>
+      task.dueDate !== undefined &&
+      task.dueDate < today &&
+      task.status !== "Completed"
   );
   return (
     <div className="container mx-auto px-4 py-8">
