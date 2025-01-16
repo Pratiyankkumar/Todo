@@ -8,48 +8,12 @@ import { Card, CardContent } from "@workspace/ui/components/card";
 import {
   Activity,
   Lock,
-  Database,
   Clock,
   ListChecks,
   CalendarDays,
   FileCheck2,
 } from "lucide-react";
-
-export function Header() {
-  return (
-    <header className="dark:border-b fixed top-0 left-0 right-0 bg-black/95 backdrop-blur supports-[backdrop-filter]:bg-black/60">
-      <div className="container flex h-14 max-w-screen-2xl items-center">
-        <Link className="flex items-center space-x-2 ml-4" href="/">
-          <Database className="h-6 w-6 text-emerald-500" />
-          <span className="font-bold">Todoify</span>
-        </Link>
-        <nav className="flex flex-1 items-center justify-end mr-4 space-x-6">
-          <Link
-            className="text-sm font-medium transition-colors hover:text-emerald-500"
-            href="#features"
-          >
-            Features
-          </Link>
-          <Link
-            className="text-sm font-medium transition-colors hover:text-emerald-500"
-            href="#testimonials"
-          >
-            Testimonials
-          </Link>
-          <Link
-            className="text-sm font-medium transition-colors hover:text-emerald-500"
-            href="#pricing"
-          >
-            Pricing
-          </Link>
-          <Button className="hidden sm:inline-flex bg-emerald-500 hover:bg-emerald-600">
-            Get Started
-          </Button>
-        </nav>
-      </div>
-    </header>
-  );
-}
+import { Header } from "@/components/landing-header";
 
 export default function Home() {
   return (
