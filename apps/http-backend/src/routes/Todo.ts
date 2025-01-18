@@ -1,33 +1,50 @@
 import express, { Request, Response } from "express";
-import { PrismaClient, Prisma } from "@prisma/client";
-import {
-  PrismaErrorCode,
-  PrismaErrorMessages,
-} from "../constants/prismaErrors";
+import { PrismaClient } from "@prisma/client";
 import { StatusCode } from "../constants/statusCodes";
-import { todo } from "node:test";
 import { sendErrorResponse } from "../utils/responseHelpers";
 import authMiddleware from "../middleware/authMiddleware";
+import { z } from "zod";
 
 const prisma = new PrismaClient();
 
 const router = express.Router();
+
+const CreateTodoSchema = z.object({
+  title: z.string().min(2, "Please enter the descriptive title"),
+  description: z.string().min(4, "Please enter the descriptive description"),
+  dueDate: z.string().regex(/^\d{2}-\d{2}-\d{4}$/, "Invalid date format"), // Keep as string for input validation
+  priority: z.enum(["High", "Medium", "Low"]).default("Low"),
+  category: z.enum(["Work", "Personal", "Household"]).default("Work"),
+  status: z
+    .enum(["InProgress", "NotStarted", "Completed"])
+    .default("NotStarted"),
+});
+
+type CreateTodo = z.infer<typeof CreateTodoSchema>;
 
 router.post(
   "/todo",
   authMiddleware,
   async (req: Request, res: Response): Promise<void> => {
     try {
+      const userId = req.user?.id;
+
+      if (!userId) {
+        res.status(StatusCode.UNAUTHORIZED).json({ message: "Unauthorized" });
+        return;
+      }
+
+      const validData = CreateTodoSchema.parse(req.body);
+
+      // Create the todo with parsed date
       const todo = await prisma.todo.create({
         data: {
-          title: req.body.title,
-          content: req.body.content,
-          completed: req.body.completed,
-          authorId: req.body.authorId,
+          ...validData,
+          authorId: userId,
         },
       });
 
-      res.status(StatusCode.OK).send(todo);
+      res.status(StatusCode.CREATED).send(todo);
     } catch (error) {
       sendErrorResponse(error, res);
     }
@@ -35,18 +52,11 @@ router.post(
 );
 
 router.get(
-  "/todo/:userId",
+  "/todo",
   authMiddleware,
   async (req: Request, res: Response): Promise<void> => {
     try {
-      const userId = Number(req.params.userId);
-
-      if (isNaN(userId)) {
-        res
-          .status(StatusCode.BAD_REQUEST)
-          .send({ error: "Invalid user ID format" });
-        return;
-      }
+      const userId = req.user?.id;
 
       const todos = await prisma.todo.findMany({
         where: {
