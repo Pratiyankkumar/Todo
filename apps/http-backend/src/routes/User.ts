@@ -6,18 +6,11 @@ import { z } from "zod";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import authMiddleware from "../middleware/authMiddleware";
+import { CreateUserRequestSchema } from "@workspace/types/index";
+import { CreateUserRequest } from "@workspace/types/index";
 
 const router = Router();
 const prisma = new PrismaClient();
-
-const CreateUserRequestSchema = z.object({
-  name: z.string().min(1, "Name is required"),
-  email: z.string().email("Invalid email address"),
-  lastName: z.string().min(1, "Last name too short").optional(),
-  password: z.string().min(7, "Password should have atleast 7 letters"),
-});
-
-type CreateUserRequest = z.infer<typeof CreateUserRequestSchema>;
 
 type RequestWithBody = Request<{}, any, CreateUserRequest>;
 
