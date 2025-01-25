@@ -1,5 +1,5 @@
 "use client";
-import { cn } from "@workspace/ui/lib/utils.js";
+import { cn } from "@workspace/ui/lib/utils";
 import { useEffect, useState } from "react";
 
 export const Meteors = ({
