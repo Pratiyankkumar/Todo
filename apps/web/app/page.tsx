@@ -6,6 +6,8 @@ import { HeroScrollDemo } from "@/components/scroll-animation";
 import { MeteorsDemo } from "@/components/Card";
 import ProjectButtons from "@/components/AuthButtons";
 import { TechCard } from "@workspace/ui/components/tech-card";
+import { TechCardBackend } from "@workspace/ui/components/tech-card-backend";
+import { Footer } from "@/components/Footer";
 
 export default function Home() {
   return (
@@ -58,8 +60,13 @@ export default function Home() {
         <p className="text-7xl mt-10 mb-8 font-semibold text-emerald-400">
           Tech Used
         </p>
-        <TechCard />
+        <div className="flex flex-wrap flex-row gap-10">
+          <TechCard />
+          <TechCardBackend />
+        </div>
       </main>
+
+      <Footer />
     </div>
   );
 }
