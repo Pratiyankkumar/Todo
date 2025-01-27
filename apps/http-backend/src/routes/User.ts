@@ -6,8 +6,8 @@ import { z } from "zod";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import authMiddleware from "../middleware/authMiddleware";
-import { CreateUserRequestSchema } from "@workspace/types/index";
-import { CreateUserRequest } from "@workspace/types/index";
+import { CreateUserRequestSchema } from "@workspace/types/dist/user";
+import { CreateUserRequest } from "@workspace/types/dist/user";
 
 const router = Router();
 const prisma = new PrismaClient();
