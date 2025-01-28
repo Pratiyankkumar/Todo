@@ -8,3 +8,10 @@ export const CreateUserRequestSchema = z.object({
 });
 
 export type CreateUserRequest = z.infer<typeof CreateUserRequestSchema>;
+
+export const LoginUserRequestSchema = z.object({
+  email: z.string().email("Invalid Email Address"),
+  password: z.string(),
+});
+
+export type LoginUserRequest = z.infer<typeof LoginUserRequestSchema>;

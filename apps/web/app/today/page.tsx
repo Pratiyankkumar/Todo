@@ -13,11 +13,14 @@ import {
 } from "@workspace/ui/components/select";
 import { Plus, Search } from "lucide-react";
 import { tasks } from "@/data/mock-data";
+import { useUser } from "@/contexts/UserContext";
 
 export default function TodoDashboard() {
   const [searchQuery, setSearchQuery] = useState("");
   const [filterStatus, setFilterStatus] = useState("all");
   const [filterPriority, setFilterPriority] = useState("all");
+  const { user } = useUser();
+  console.log(user);
 
   return (
     <div className="container mx-auto p-6 space-y-6">

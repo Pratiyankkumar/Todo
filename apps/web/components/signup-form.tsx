@@ -14,11 +14,16 @@ import { Label } from "@workspace/ui/components/label";
 import Link from "next/link";
 import React, { useState } from "react";
 import { CreateUserRequest } from "@workspace/types/index";
-
+import { useMutation } from "react-query";
+import { signup } from "@/api/mutations/auth";
+import { useUser } from "@/contexts/UserContext";
+import { Loader } from "lucide-react";
+import Alert03 from "./Alert";
 export function SignupForm({
   className,
   ...props
 }: React.ComponentPropsWithoutRef<"div">) {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [formData, setFormData] = useState<CreateUserRequest | undefined>({
     name: "",
     email: "",
@@ -29,6 +34,18 @@ export function SignupForm({
   const [lastName, setLastName] = useState<string>("");
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
+  const { login } = useUser();
+
+  const mutation = useMutation(signup, {
+    onSuccess: (data) => {
+      console.log(data);
+      localStorage.setItem("token", data.token);
+      login({ name: data.name, email: data.email, lastName: data.lastName });
+    },
+    onError: (error) => {
+      console.log("Error Occured: ", error);
+    },
+  });
 
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -39,11 +56,27 @@ export function SignupForm({
       const newFormData = { name, lastName, email, password };
       setFormData(newFormData);
       console.log(newFormData); // Log the new data directly
+
+      mutation.mutate(newFormData);
     }
   }
 
   return (
     <div className={cn("flex flex-col gap-6", className)} {...props}>
+      {mutation.isSuccess && (
+        <Alert03
+          isError={false}
+          text="Account created Successfully, redirecting"
+          hidden={false}
+        />
+      )}
+      {mutation.isError && (
+        <Alert03
+          isError={true}
+          text="An Error Occured while creating account "
+          hidden={false}
+        />
+      )}
       <Card>
         <CardHeader className="text-center">
           <CardTitle className="text-xl">Welcome back</CardTitle>
@@ -118,8 +151,17 @@ export function SignupForm({
                     onChange={(e) => setPassword(e.target.value)}
                   />
                 </div>
-                <Button type="submit" className="w-full">
-                  Signup
+                <Button
+                  disabled={mutation.isLoading}
+                  type="submit"
+                  className="w-full"
+                >
+                  <Loader
+                    className={`w-6 h-6 animate-spin ${mutation.isLoading ? "" : "hidden"}`}
+                  />
+                  <p className={`${mutation.isLoading ? "hidden" : ""}`}>
+                    Signup
+                  </p>
                 </Button>
               </div>
               <div className="text-center text-sm">

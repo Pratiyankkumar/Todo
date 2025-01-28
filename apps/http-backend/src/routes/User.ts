@@ -6,7 +6,11 @@ import { z } from "zod";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import authMiddleware from "../middleware/authMiddleware";
-import { CreateUserRequestSchema } from "@workspace/types/dist/user";
+import {
+  CreateUserRequestSchema,
+  LoginUserRequest,
+  LoginUserRequestSchema,
+} from "@workspace/types/dist/user";
 import { CreateUserRequest } from "@workspace/types/dist/user";
 
 const router = Router();
@@ -55,26 +59,24 @@ const createUser = async (
       },
     });
 
-    res.status(StatusCode.CREATED).send(user);
+    res.status(StatusCode.CREATED).send({
+      name: user.name,
+      lastName: user.lastName,
+      email: user.email,
+      token,
+    });
   } catch (error) {
     sendErrorResponse(error, res);
   }
 };
 
 // Use the correct handler type
-router.post("/user", (req: Request, res: Response) =>
+router.post("/signup", (req: Request, res: Response) =>
   createUser(req as RequestWithBody, res)
 );
 
-const LoginUserRequestSchema = z.object({
-  email: z.string().email("Invalid Email Address"),
-  password: z.string(),
-});
-
-type LoginUserRequest = z.infer<typeof LoginUserRequestSchema>;
-
 router.post(
-  "/user/login",
+  "/login",
   async (req: Request<any, LoginUserRequest>, res: Response) => {
     try {
       const inputData: LoginUserRequest = req.body;
@@ -124,7 +126,10 @@ router.post(
 
       const { password, ...safeUser } = user;
 
-      res.send(safeUser);
+      res.send({
+        user: safeUser,
+        token,
+      });
     } catch (err) {
       sendErrorResponse(err, res);
     }

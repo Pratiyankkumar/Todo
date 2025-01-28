@@ -5,6 +5,8 @@ import "@workspace/ui/globals.css";
 import { Providers } from "@/components/providers";
 import { ThemeProvider } from "next-themes";
 import { Analytics } from "@vercel/analytics/react";
+import AppQueryProvider from "@/contexts/QueryClientProvider";
+import { UserProvider } from "@/contexts/UserContext";
 
 const fontSans = Geist({
   subsets: ["latin"],
@@ -26,17 +28,21 @@ export default function RootLayout({
       <body
         className={`${fontSans.variable} ${fontMono.variable} font-sans antialiased`}
       >
-        <Providers>
-          <ThemeProvider
-            attribute="class"
-            defaultTheme="system"
-            enableSystem
-            disableTransitionOnChange
-          >
-            {children}
-            <Analytics />
-          </ThemeProvider>
-        </Providers>
+        <UserProvider>
+          <AppQueryProvider>
+            <Providers>
+              <ThemeProvider
+                attribute="class"
+                defaultTheme="system"
+                enableSystem
+                disableTransitionOnChange
+              >
+                {children}
+                <Analytics />
+              </ThemeProvider>
+            </Providers>
+          </AppQueryProvider>
+        </UserProvider>
       </body>
     </html>
   );
