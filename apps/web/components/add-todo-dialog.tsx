@@ -10,7 +10,7 @@ import {
 } from "@workspace/ui/components/dialog";
 import { Input } from "@workspace/ui/components/input";
 import { Textarea } from "@workspace/ui/components/textarea";
-import { CalendarIcon, Plus, Star } from "lucide-react";
+import { CalendarIcon, InfoIcon, Plus, Star } from "lucide-react";
 import { Calendar } from "@workspace/ui/components/calendar";
 import {
   Popover,
@@ -21,19 +21,28 @@ import { cn } from "@workspace/ui/lib/utils";
 import { format } from "date-fns";
 import { useSidebar } from "@workspace/ui/components/sidebar";
 import { initialProjects } from "@/data/mock-data";
+import { CreateTodo } from "@workspace/types";
+import formatDate from "@/utils/formatDate";
+import { useMutation } from "react-query";
+import { createTodo } from "@/api/mutations/todo";
 
-const categories = ["Work", "Personal", "Household"];
-const priorities = ["High", "Medium", "Low"];
-const statusType = ["In Progress", "Not Started", "Completed"];
+type Priority = "High" | "Medium" | "Low";
+const priorities: Priority[] = ["High", "Medium", "Low"];
+
+type Category = "Work" | "Personal" | "Household";
+const categories: Category[] = ["Work", "Personal", "Household"];
+
+type Status = "InProgress" | "NotStarted" | "Completed";
+const statusType: Status[] = ["InProgress", "NotStarted", "Completed"];
 
 export function TaskDialog() {
   const [title, setTitle] = React.useState("");
   const [description, setDescription] = React.useState("");
   const [date, setDate] = React.useState<Date>();
-  const [priority, setPriority] = React.useState<string | null>(null);
-  const [category, setCategory] = React.useState<string | null>(null);
+  const [priority, setPriority] = React.useState<Priority>("Low");
+  const [category, setCategory] = React.useState<Category>("Work");
   const [project, setProject] = React.useState<string | null>(null);
-  const [status, setStatus] = React.useState<string | null>(null);
+  const [status, setStatus] = React.useState<Status>("NotStarted");
   const textareaRef = React.useRef<HTMLTextAreaElement>(null);
 
   // Handle textarea auto-resize
@@ -46,6 +55,35 @@ export function TaskDialog() {
   }, [description]);
 
   const { open } = useSidebar();
+
+  const mutation = useMutation(createTodo, {
+    onSuccess: (data) => {
+      console.log(data);
+    },
+    onError: (error) => {
+      console.log(error);
+    },
+  });
+
+  function handleSubmit() {
+    const newTodo: CreateTodo = {
+      title,
+      description,
+      dueDate: date
+        ? formatDate(String(date))
+        : formatDate(new Date().toLocaleDateString()),
+      priority,
+      category,
+      status,
+    };
+
+    if (description.length < 5) {
+      return;
+    }
+
+    console.log(newTodo);
+    mutation.mutate(newTodo);
+  }
 
   return (
     <Dialog>
@@ -76,6 +114,16 @@ export function TaskDialog() {
               className="min-h-[60px] max-h-[60vh] resize-none border-none px-0 pl-4 focus-visible:ring-0"
             />
           </div>
+          <div
+            className={`flex flex-row gap-2  ml-4 items-center ${description.length < 5 ? "" : "hidden"}`}
+          >
+            <InfoIcon className="h-3 text-red-500 w-3" />
+            <p className="text-sm text-red-500 ">
+              {" "}
+              Please enter more than 5 words
+            </p>
+          </div>
+
           <div className="flex flex-wrap items-center gap-2">
             <Popover>
               <PopoverTrigger asChild>
@@ -88,7 +136,9 @@ export function TaskDialog() {
                   )}
                 >
                   <CalendarIcon className="mr-2 h-4 w-4" />
-                  {date ? format(date, "PPP") : "Today"}
+                  {date
+                    ? format(date, "PPP")
+                    : formatDate(new Date().toLocaleDateString())}
                 </Button>
               </PopoverTrigger>
               <PopoverContent className="w-auto p-0" align="start">
@@ -236,7 +286,11 @@ export function TaskDialog() {
           </div>
         </div>
         <DialogFooter className="flex justify-between sm:justify-between">
-          <Button size="sm" className="bg-rose-500 hover:bg-rose-600">
+          <Button
+            onClick={handleSubmit}
+            size="sm"
+            className="bg-rose-500 hover:bg-rose-600"
+          >
             Add task
           </Button>
         </DialogFooter>

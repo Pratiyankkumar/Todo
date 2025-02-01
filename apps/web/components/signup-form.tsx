@@ -19,6 +19,7 @@ import { signup } from "@/api/mutations/auth";
 import { useUser } from "@/contexts/UserContext";
 import { Loader } from "lucide-react";
 import Alert03 from "./Alert";
+import { AxiosError } from "axios";
 export function SignupForm({
   className,
   ...props
@@ -35,6 +36,7 @@ export function SignupForm({
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const { login } = useUser();
+  const [statusCode, setStatusCode] = useState<number | null>();
 
   const mutation = useMutation(signup, {
     onSuccess: (data) => {
@@ -42,8 +44,9 @@ export function SignupForm({
       localStorage.setItem("token", data.token);
       login({ name: data.name, email: data.email, lastName: data.lastName });
     },
-    onError: (error) => {
+    onError: (error: AxiosError) => {
       console.log("Error Occured: ", error);
+      setStatusCode(error.status);
     },
   });
 
@@ -70,7 +73,14 @@ export function SignupForm({
           hidden={false}
         />
       )}
-      {mutation.isError && (
+      {mutation.isError && statusCode === 400 && (
+        <Alert03
+          isError={true}
+          text="Email is already taken !! "
+          hidden={false}
+        />
+      )}
+      {mutation.isError && statusCode === 500 && (
         <Alert03
           isError={true}
           text="An Error Occured while creating account "

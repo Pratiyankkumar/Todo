@@ -17,6 +17,7 @@ import { login } from "@/api/mutations/auth";
 import { useUser } from "@/contexts/UserContext";
 import Alert03 from "./Alert";
 import { Loader } from "lucide-react";
+import { AxiosError } from "axios";
 
 export function LoginForm({
   className,
@@ -25,6 +26,7 @@ export function LoginForm({
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const { login: loginFun } = useUser();
+  const [statusCode, setStatusCode] = useState<number | null>();
 
   const mutation = useMutation(login, {
     onSuccess: (data) => {
@@ -36,8 +38,9 @@ export function LoginForm({
         lastName: data.user.lastName,
       });
     },
-    onError: (error) => {
+    onError: (error: AxiosError) => {
       console.log(error);
+      setStatusCode(error.status);
     },
   });
 
@@ -45,6 +48,7 @@ export function LoginForm({
     e.preventDefault();
 
     mutation.mutate({ email, password });
+    console.log(statusCode);
   }
 
   return (
@@ -56,7 +60,14 @@ export function LoginForm({
           hidden={false}
         />
       )}
-      {mutation.isError && (
+      {mutation.isError && statusCode === 404 && (
+        <Alert03
+          isError={true}
+          text="User not found in database "
+          hidden={false}
+        />
+      )}
+      {mutation.isError && statusCode === 500 && (
         <Alert03
           isError={true}
           text="An Error Occured while loggin in "
