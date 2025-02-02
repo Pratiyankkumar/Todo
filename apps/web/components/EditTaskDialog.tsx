@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   Dialog,
   DialogContent,
@@ -26,12 +26,14 @@ import {
 import { CalendarIcon } from "lucide-react";
 import { format } from "date-fns";
 import { Task } from "@/data/mock-data";
+import { ExtendedCreateTodo } from "@/app/today/page";
+import { formatDateRev } from "@/utils/formatDateReverse";
 
 interface EditTaskDialogProps {
-  task: Task;
+  task: ExtendedCreateTodo;
   isOpen: boolean;
   onClose: () => void;
-  onSave: (updatedTask: Task) => void;
+  onSave: (updatedTask: ExtendedCreateTodo) => void;
 }
 
 export function EditTaskDialog({
@@ -40,13 +42,27 @@ export function EditTaskDialog({
   onClose,
   onSave,
 }: EditTaskDialogProps) {
-  const [editedTask, setEditedTask] = useState<Task>(task);
-  const [date, setDate] = useState<Date | undefined>(new Date(task.dueDate));
+  // Initialize state only when dialog opens
+  const [editedTask, setEditedTask] = useState<ExtendedCreateTodo>(task);
+  const [date, setDate] = useState<Date | undefined>(
+    task.dueDate ? formatDateRev(task.dueDate) : undefined
+  );
+
+  // Reset state when task prop changes
+  useEffect(() => {
+    if (isOpen) {
+      setEditedTask(task);
+      setDate(task.dueDate ? formatDateRev(task.dueDate) : undefined);
+    }
+  }, [task, isOpen]);
 
   const handleSave = () => {
     onSave(editedTask);
     onClose();
   };
+
+  // Only render dialog content when it's open
+  if (!isOpen) return null;
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
@@ -55,6 +71,7 @@ export function EditTaskDialog({
           <DialogTitle>Edit Task</DialogTitle>
         </DialogHeader>
         <div className="grid gap-4 py-4">
+          {/* Title Field */}
           <div className="grid grid-cols-4 items-center gap-4">
             <Label htmlFor="title" className="text-right">
               Title
@@ -68,6 +85,8 @@ export function EditTaskDialog({
               className="col-span-3"
             />
           </div>
+
+          {/* Description Field */}
           <div className="grid grid-cols-4 items-center gap-4">
             <Label htmlFor="description" className="text-right">
               Description
@@ -78,9 +97,11 @@ export function EditTaskDialog({
               onChange={(e) =>
                 setEditedTask({ ...editedTask, description: e.target.value })
               }
-              className="col-span-3 h-full"
+              className="col-span-3 h-24"
             />
           </div>
+
+          {/* Due Date Field */}
           <div className="grid grid-cols-4 items-center gap-4">
             <Label htmlFor="dueDate" className="text-right">
               Due Date
@@ -88,14 +109,14 @@ export function EditTaskDialog({
             <Popover>
               <PopoverTrigger asChild>
                 <Button
-                  variant={"outline"}
+                  variant="outline"
                   className={`col-span-3 justify-start text-left font-normal ${!date && "text-muted-foreground"}`}
                 >
                   <CalendarIcon className="mr-2 h-4 w-4" />
                   {date ? format(date, "PPP") : <span>Pick a date</span>}
                 </Button>
               </PopoverTrigger>
-              <PopoverContent className="w-auto p-0">
+              <PopoverContent className="w-auto p-0" align="start">
                 <Calendar
                   mode="single"
                   selected={date}
@@ -111,12 +132,14 @@ export function EditTaskDialog({
               </PopoverContent>
             </Popover>
           </div>
+
+          {/* Priority Field */}
           <div className="grid grid-cols-4 items-center gap-4">
             <Label htmlFor="priority" className="text-right">
               Priority
             </Label>
             <Select
-              defaultValue={editedTask.priority}
+              value={editedTask.priority}
               onValueChange={(value: string) =>
                 setEditedTask({
                   ...editedTask,
@@ -125,44 +148,48 @@ export function EditTaskDialog({
               }
             >
               <SelectTrigger className="col-span-3">
-                <SelectValue placeholder="Select a category" />
+                <SelectValue placeholder="Select priority" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="Work">High</SelectItem>
-                <SelectItem value="Personal">Medium</SelectItem>
-                <SelectItem value="Household">Low</SelectItem>
+                <SelectItem value="High">High</SelectItem>
+                <SelectItem value="Medium">Medium</SelectItem>
+                <SelectItem value="Low">Low</SelectItem>
               </SelectContent>
             </Select>
           </div>
+
+          {/* Status Field */}
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label htmlFor="priority" className="text-right">
+            <Label htmlFor="status" className="text-right">
               Status
             </Label>
             <Select
-              defaultValue={editedTask.status}
+              value={editedTask.status}
               onValueChange={(value: string) =>
                 setEditedTask({
                   ...editedTask,
-                  status: value as Task["status"],
+                  status: value as ExtendedCreateTodo["status"],
                 })
               }
             >
               <SelectTrigger className="col-span-3">
-                <SelectValue placeholder="Select a category" />
+                <SelectValue placeholder="Select status" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="Work">In Progress</SelectItem>
-                <SelectItem value="Personal">Not Started</SelectItem>
-                <SelectItem value="Household">Completed</SelectItem>
+                <SelectItem value="Not Started">Not Started</SelectItem>
+                <SelectItem value="In Progress">In Progress</SelectItem>
+                <SelectItem value="Completed">Completed</SelectItem>
               </SelectContent>
             </Select>
           </div>
+
+          {/* Category Field */}
           <div className="grid grid-cols-4 items-center gap-4">
             <Label htmlFor="category" className="text-right">
               Category
             </Label>
             <Select
-              defaultValue={editedTask.category}
+              value={editedTask.category}
               onValueChange={(value: string) =>
                 setEditedTask({
                   ...editedTask,
@@ -171,7 +198,7 @@ export function EditTaskDialog({
               }
             >
               <SelectTrigger className="col-span-3">
-                <SelectValue placeholder="Select a category" />
+                <SelectValue placeholder="Select category" />
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="Work">Work</SelectItem>
@@ -181,6 +208,7 @@ export function EditTaskDialog({
             </Select>
           </div>
         </div>
+
         <DialogFooter>
           <Button type="submit" onClick={handleSave}>
             Save changes

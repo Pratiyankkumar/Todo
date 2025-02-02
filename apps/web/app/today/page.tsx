@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { TaskList } from "@/components/task-list";
 import { Button } from "@workspace/ui/components/button";
 import { Input } from "@workspace/ui/components/input";
@@ -12,15 +12,38 @@ import {
   SelectValue,
 } from "@workspace/ui/components/select";
 import { Plus, Search } from "lucide-react";
-import { tasks } from "@/data/mock-data";
-import { useUser } from "@/contexts/UserContext";
+import { CreateTodo } from "@workspace/types";
+import { getTodo } from "@/api/queries/todo";
+import { useQuery } from "react-query";
+import { useTodo } from "@/contexts/TodoContext";
+
+export type ExtendedCreateTodo = CreateTodo & {
+  authorId: number;
+  createdAt: string;
+  id: number;
+};
 
 export default function TodoDashboard() {
   const [searchQuery, setSearchQuery] = useState("");
   const [filterStatus, setFilterStatus] = useState("all");
   const [filterPriority, setFilterPriority] = useState("all");
-  const { user } = useUser();
-  console.log(user);
+  const [todo, setTodo] = useState<ExtendedCreateTodo[] | []>([]);
+  // const { user } = useUser();
+  // console.log(user);
+
+  const { data, error } = useQuery("todos", getTodo);
+  const { saveTodoList } = useTodo();
+
+  useEffect(() => {
+    if (data) {
+      setTodo(data);
+      saveTodoList(data);
+    }
+
+    if (error) {
+      console.log(error);
+    }
+  }, [data, error, saveTodoList]);
 
   return (
     <div className="container mx-auto p-6 space-y-6">
@@ -76,7 +99,7 @@ export default function TodoDashboard() {
             Your Tasks
           </h2>
           <TaskList
-            tasks={tasks}
+            tasks={todo}
             onTaskUpdate={(task) => console.log("Task updated:", task)}
           />
         </div>

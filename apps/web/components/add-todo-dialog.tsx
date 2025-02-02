@@ -10,7 +10,7 @@ import {
 } from "@workspace/ui/components/dialog";
 import { Input } from "@workspace/ui/components/input";
 import { Textarea } from "@workspace/ui/components/textarea";
-import { CalendarIcon, InfoIcon, Plus, Star } from "lucide-react";
+import { CalendarIcon, InfoIcon, Loader, Plus, Star } from "lucide-react";
 import { Calendar } from "@workspace/ui/components/calendar";
 import {
   Popover,
@@ -23,7 +23,7 @@ import { useSidebar } from "@workspace/ui/components/sidebar";
 import { initialProjects } from "@/data/mock-data";
 import { CreateTodo } from "@workspace/types";
 import formatDate from "@/utils/formatDate";
-import { useMutation } from "react-query";
+import { useMutation, useQueryClient } from "react-query";
 import { createTodo } from "@/api/mutations/todo";
 
 type Priority = "High" | "Medium" | "Low";
@@ -44,6 +44,17 @@ export function TaskDialog() {
   const [project, setProject] = React.useState<string | null>(null);
   const [status, setStatus] = React.useState<Status>("NotStarted");
   const textareaRef = React.useRef<HTMLTextAreaElement>(null);
+  const dialogTriggerRef = React.useRef<HTMLDivElement>(null);
+
+  const resetForm = () => {
+    setTitle("");
+    setDescription("");
+    setDate(undefined);
+    setPriority("Low");
+    setCategory("Work");
+    setProject(null);
+    setStatus("NotStarted");
+  };
 
   // Handle textarea auto-resize
   React.useEffect(() => {
@@ -56,9 +67,14 @@ export function TaskDialog() {
 
   const { open } = useSidebar();
 
+  const queryClient = useQueryClient();
+
   const mutation = useMutation(createTodo, {
     onSuccess: (data) => {
       console.log(data);
+      queryClient.invalidateQueries("todos");
+      dialogTriggerRef.current?.click(); // Close the dialog by triggering a click on the DialogTrigger
+      resetForm(); // Reset the form state
     },
     onError: (error) => {
       console.log(error);
@@ -89,7 +105,8 @@ export function TaskDialog() {
     <Dialog>
       <DialogTrigger asChild>
         <div
-          className={` cursor-pointer truncate overflow-hidden flex flex-row items-center gap-2 rounded-md ${open ? "hover:bg-gray-200 hover:dark:bg-black/50" : ""} py-2 duration-300 ease-in-out`}
+          ref={dialogTriggerRef}
+          className={`cursor-pointer truncate overflow-hidden flex flex-row items-center gap-2 rounded-md ${open ? "hover:bg-gray-200 hover:dark:bg-black/50" : ""} py-2 duration-300 ease-in-out`}
         >
           <Button className={`w-8 h-8 ${open ? "ml-2" : ""}`} size="icon">
             <Plus className="" />
@@ -291,7 +308,10 @@ export function TaskDialog() {
             size="sm"
             className="bg-rose-500 hover:bg-rose-600"
           >
-            Add task
+            <Loader
+              className={`w-6 h-6 animate-spin ${mutation.isLoading ? "" : "hidden"}`}
+            />
+            <p className={`${mutation.isLoading ? "hidden" : ""}`}>Add task</p>
           </Button>
         </DialogFooter>
       </DialogContent>

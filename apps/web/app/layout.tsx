@@ -7,6 +7,7 @@ import { ThemeProvider } from "next-themes";
 import { Analytics } from "@vercel/analytics/react";
 import AppQueryProvider from "@/contexts/QueryClientProvider";
 import { UserProvider } from "@/contexts/UserContext";
+import { TodoProvider } from "@/contexts/TodoContext";
 
 const fontSans = Geist({
   subsets: ["latin"],
@@ -29,19 +30,21 @@ export default function RootLayout({
         className={`${fontSans.variable} ${fontMono.variable} font-sans antialiased`}
       >
         <UserProvider>
-          <AppQueryProvider>
-            <Providers>
-              <ThemeProvider
-                attribute="class"
-                defaultTheme="system"
-                enableSystem
-                disableTransitionOnChange
-              >
-                {children}
-                <Analytics />
-              </ThemeProvider>
-            </Providers>
-          </AppQueryProvider>
+          <TodoProvider>
+            <AppQueryProvider>
+              <Providers>
+                <ThemeProvider
+                  attribute="class"
+                  defaultTheme="system"
+                  enableSystem
+                  disableTransitionOnChange
+                >
+                  {children}
+                  <Analytics />
+                </ThemeProvider>
+              </Providers>
+            </AppQueryProvider>
+          </TodoProvider>
         </UserProvider>
       </body>
     </html>

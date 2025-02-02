@@ -1,4 +1,3 @@
-import { Task } from "@/data/mock-data";
 import {
   Dialog,
   DialogContent,
@@ -7,9 +6,10 @@ import {
 } from "@workspace/ui/components/dialog";
 import { Badge } from "@workspace/ui/components/badge";
 import { getPriorityColor } from "@/utils/getPriorityColor";
+import { ExtendedCreateTodo } from "@/app/today/page";
 
 interface TaskDetailsModalProps {
-  task: Task;
+  task: ExtendedCreateTodo;
   isOpen: boolean;
   onClose: () => void;
 }

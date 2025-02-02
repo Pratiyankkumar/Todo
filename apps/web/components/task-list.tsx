@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { Task } from "@/data/mock-data";
 import { Badge } from "@workspace/ui/components/badge";
 import { Button } from "@workspace/ui/components/button";
 import {
@@ -12,30 +11,46 @@ import { TaskDetailsModal } from "@/components/task-details-modal";
 import { Check, Edit, Eye } from "lucide-react";
 import { getStatusColor } from "@/utils/getStatusColor";
 import { getPriorityColor } from "@/utils/getPriorityColor";
+import { ExtendedCreateTodo } from "@/app/today/page";
 
 interface TaskListProps {
-  tasks: Task[];
-  onTaskUpdate: (updatedTask: Task) => void;
+  tasks: ExtendedCreateTodo[];
+  onTaskUpdate: (updatedTask: ExtendedCreateTodo) => void;
 }
 
 export function TaskList({ tasks, onTaskUpdate }: TaskListProps) {
-  const [editingTask, setEditingTask] = useState<Task | null>(null);
-  const [viewingTask, setViewingTask] = useState<Task | null>(null);
+  const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
+  const [selectedTask, setSelectedTask] = useState<ExtendedCreateTodo | null>(
+    null
+  );
+  const [viewingTask, setViewingTask] = useState<ExtendedCreateTodo | null>(
+    null
+  );
 
-  const handleMarkCompleted = (task: Task) => {
-    onTaskUpdate({ ...task, status: "Completed" });
+  const handleMarkCompleted = (task: ExtendedCreateTodo) => {
+    const newStatus = task.status === "Completed" ? "NotStarted" : "Completed";
+    onTaskUpdate({ ...task, status: newStatus });
   };
 
-  const handleEditTask = (updatedTask: Task) => {
+  const handleEditClick = (task: ExtendedCreateTodo) => {
+    setSelectedTask(task);
+    setIsEditDialogOpen(true);
+  };
+
+  const handleSave = (updatedTask: ExtendedCreateTodo) => {
     onTaskUpdate(updatedTask);
-    setEditingTask(null);
+  };
+
+  const handleCloseEditDialog = () => {
+    setIsEditDialogOpen(false);
+    setSelectedTask(null);
   };
 
   return (
     <ul className="space-y-3">
-      {tasks.map((task) => (
+      {tasks.map((task, i) => (
         <li
-          key={task.id}
+          key={i}
           className="group flex justify-between items-center bg-gradient-to-r from-gray-50 to-white dark:from-gray-800 dark:to-gray-700 p-4 rounded-lg shadow-sm hover:shadow-md dark:shadow-gray-900 transition-all duration-300 ease-in-out"
         >
           <div className="flex-1">
@@ -63,10 +78,10 @@ export function TaskList({ tasks, onTaskUpdate }: TaskListProps) {
                   className="h-8 w-8 p-0 text-gray-600 opacity-0 transition-opacity group-hover:opacity-100 duration-300 ease-in-out dark:text-gray-300 hover:text-gray-900 dark:hover:text-white"
                 >
                   <span className="sr-only">Open menu</span>
-                  <Edit className="h-4 w-4 " />
+                  <Edit className="h-4 w-4" />
                 </Button>
               </PopoverTrigger>
-              <PopoverContent className=" dark:bg-gray-800 dark:border-gray-700">
+              <PopoverContent className="dark:bg-gray-800 dark:border-gray-700">
                 <div className="flex flex-col space-y-1">
                   <Button
                     variant="ghost"
@@ -80,8 +95,8 @@ export function TaskList({ tasks, onTaskUpdate }: TaskListProps) {
                   </Button>
                   <Button
                     variant="ghost"
-                    className="justify-start text-gray-700  dark:text-gray-200 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
-                    onClick={() => setEditingTask(task)}
+                    className="justify-start text-gray-700 dark:text-gray-200 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
+                    onClick={() => handleEditClick(task)}
                   >
                     <Edit className="mr-2 h-4 w-4" />
                     Edit
@@ -99,21 +114,26 @@ export function TaskList({ tasks, onTaskUpdate }: TaskListProps) {
               {task.status}
             </Badge>
           </div>
-          {editingTask && editingTask.id === task.id && (
-            <EditTaskDialog
-              task={editingTask}
-              isOpen={true}
-              onClose={() => setEditingTask(null)}
-              onSave={handleEditTask}
-            />
-          )}
         </li>
       ))}
+
       {tasks.length === 0 && (
         <li className="text-center py-6 text-gray-500 dark:text-gray-400">
           No tasks available
         </li>
       )}
+
+      {/* Edit Dialog - moved outside the map loop */}
+      {selectedTask && (
+        <EditTaskDialog
+          task={selectedTask}
+          isOpen={isEditDialogOpen}
+          onClose={handleCloseEditDialog}
+          onSave={handleSave}
+        />
+      )}
+
+      {/* View Task Modal */}
       {viewingTask && (
         <TaskDetailsModal
           task={viewingTask}
